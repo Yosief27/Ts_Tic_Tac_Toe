@@ -16,7 +16,7 @@ const Square = ({player,index,onClick}:SqurareProps) => {
                         {...{onClick}} 
                         >
                             <span 
-                                className={`transform translate-all duration-150 ease-out ${scale} ${textColor} ${hoverStyle}`}
+                                className={`transform translate-all duration-150 ease-out ${scale} ${textColor} `}
                                 data-cell-index={index}
                             >
                                 {player}

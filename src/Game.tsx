@@ -1,16 +1,46 @@
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 import React from 'react'
 
 import './Game.css'
 import Square from './components/Square';
-const INITIAL_GAME_STATE=["X","O","X","O","X","O","O","O","X"];
+const INITIAL_GAME_STATE=["","","","","","","","",""];
+const WIN_COMBO=[
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [3,4,6],
+]
+
+
+
 function Game() {
   const [gameState,setGameState]=useState(INITIAL_GAME_STATE);
-  const [element,setElement]=useState<string|null>("u");
+  const [curPlayer,setCurPlayer]=useState<string>("X");
+  useEffect(()=>{
+    checkWinner();
+  },[gameState])
+  const checkWinner=()=>{
+    
+  }
   const handleClick=(event:React.MouseEvent<HTMLElement>)=>{
         const el=event.target as HTMLElement;
-        const val=el.getAttribute("data-cell-index"); 
-        setElement(val);
+        const currentIndex=Number(el.getAttribute("data-cell-index")); 
+        const currentValue=gameState[currentIndex] ;
+        if(currentValue){
+            return;
+        }
+        const newGameState=[...gameState];
+        newGameState[currentIndex]=curPlayer;
+        setGameState(newGameState);
+        curPlayer==="X"?setCurPlayer("O"):setCurPlayer("X");
+        
+
+
+
     }
 
   return <>
@@ -22,7 +52,7 @@ function Game() {
                  <Square  {...{player,index}} onClick={handleClick}/> 
                 ))}
               </div>
-              <div>Scores Go Here---{element} </div>
+              <div>Scores Go Here </div>
             </div>
         </div>
         </>
