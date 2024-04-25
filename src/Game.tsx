@@ -4,7 +4,7 @@ import React from 'react'
 import './Game.css'
 import Square from './components/Square';
 const INITIAL_GAME_STATE=["","","","","","","","",""];
-const WIN_COMBO=[
+const WINNING_COMBOS=[
   [0,1,2],
   [3,4,5],
   [6,7,8],
@@ -12,7 +12,7 @@ const WIN_COMBO=[
   [1,4,7],
   [2,5,8],
   [0,4,8],
-  [3,4,6],
+  [2,4,6],
 ]
 
 
@@ -23,8 +23,46 @@ function Game() {
   useEffect(()=>{
     checkWinner();
   },[gameState])
+  const resetBoard=()=>{
+    setGameState(INITIAL_GAME_STATE);
+  }
+  const handleWin=()=>{
+
+        window.alert(`Congrate player ${curPlayer} ! You are the winner`);
+        resetBoard();
+  }
+  const handleDraw=()=>{
+        window.alert(`Game is over in a draw !`);
+        resetBoard();
+  }
+
   const checkWinner=()=>{
-    
+    let roundWon=false;
+    for(let i=0;i<WINNING_COMBOS.length;i++){
+      const winCom=WINNING_COMBOS[i];
+      const a =gameState[winCom[0]];
+      const b =gameState[winCom[1]];
+      const c =gameState[winCom[2]];
+      if([a,b,c].includes("")){
+        continue;
+      }
+      if(a===b && b===c){
+        roundWon=true;
+        break;
+      }
+    }
+      if(roundWon){
+        setTimeout(()=>handleWin(),500);
+        return;
+      }
+      if(!gameState.includes("")){
+
+        setTimeout(()=>handleDraw(),500);
+        return;
+      }
+  }
+  const changePlayer=()=>{
+
   }
   const handleClick=(event:React.MouseEvent<HTMLElement>)=>{
         const el=event.target as HTMLElement;
@@ -37,10 +75,6 @@ function Game() {
         newGameState[currentIndex]=curPlayer;
         setGameState(newGameState);
         curPlayer==="X"?setCurPlayer("O"):setCurPlayer("X");
-        
-
-
-
     }
 
   return <>
