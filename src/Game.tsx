@@ -3,7 +3,12 @@ import React from 'react'
 
 import './Game.css'
 import Square from './components/Square';
+
+type scoreType={
+  [key:string]:number
+}
 const INITIAL_GAME_STATE=["","","","","","","","",""];
+const INITIAL_SCORE:scoreType={"X":0,"O":0};
 const WINNING_COMBOS=[
   [0,1,2],
   [3,4,5],
@@ -20,15 +25,28 @@ const WINNING_COMBOS=[
 function Game() {
   const [gameState,setGameState]=useState(INITIAL_GAME_STATE);
   const [curPlayer,setCurPlayer]=useState<string>("X");
+  const [score,setScore]=useState(INITIAL_SCORE);
+  useEffect(()=>{
+    const storedScores=localStorage.getItem("scores");
+    if(storedScores)setScore(JSON.parse(storedScores)); 
+  
+  },[])
   useEffect(()=>{
     checkWinner();
   },[gameState])
   const resetBoard=()=>{
     setGameState(INITIAL_GAME_STATE);
-  }
+  
+  } 
   const handleWin=()=>{
 
         window.alert(`Congrate player ${curPlayer} ! You are the winner`);
+        const newScore=score[curPlayer]+1;
+        const curScore={...score};
+        curScore[curPlayer]=newScore;
+        setScore(curScore);
+        localStorage.setItem("scores",JSON.stringify(curScore))
+
         resetBoard();
   }
   const handleDraw=()=>{
@@ -60,9 +78,11 @@ function Game() {
         setTimeout(()=>handleDraw(),500);
         return;
       }
+      changePlayer();
   }
   const changePlayer=()=>{
 
+        curPlayer==="X"?setCurPlayer("O"):setCurPlayer("X");
   }
   const handleClick=(event:React.MouseEvent<HTMLElement>)=>{
         const el=event.target as HTMLElement;
@@ -74,7 +94,6 @@ function Game() {
         const newGameState=[...gameState];
         newGameState[currentIndex]=curPlayer;
         setGameState(newGameState);
-        curPlayer==="X"?setCurPlayer("O"):setCurPlayer("X");
     }
 
   return <>
@@ -86,7 +105,11 @@ function Game() {
                  <Square  {...{player,index}} onClick={handleClick}/> 
                 ))}
               </div>
-              <div>Scores Go Here </div>
+              <div className='mx-auto w-96 text-2xl text-serif ps-14 text-white'>
+                  <p className='mb-5'>It is player {curPlayer} turn !</p> 
+                  <p>Player X score is {score["X"]}  !</p> 
+                  <p>Player O score is {score["O"]}  !</p> 
+              </div>
             </div>
         </div>
         </>
