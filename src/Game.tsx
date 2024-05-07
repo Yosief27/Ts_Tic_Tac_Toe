@@ -96,23 +96,25 @@ function Game() {
         setGameState(newGameState);
     }
 
-  return <>
-          <div className='h-full p-8 text-slate-800 bg-gradient-to-br  from-cyan-500 to-gray-500'>
-              <h1 className='text-center text-5xl mb-4 font-extrabold  text-white'>Tic Tac Toe</h1>
-           <div>
-              <div className='grid grid-cols-3 gap-3 mx-auto w-96'> 
-                {gameState.map((player,index)=>(
-                 <Square  {...{player,index}} onClick={handleClick}/> 
-                ))}
+  return <div className='flex items-center justify-center  '>
+          <div className='grid h-screen w-full grid-cols-3 grid-rows-5 gap-2'>
+              <div className='col-span-3  row-span-1 flex justify-center items-center    p-8 text-slate-800 bg-gradient-to-br  from-cyan-500 to-gray-500'>
+                 <h1 className='text-center text-5xl mb-4 font-extrabold  text-white'>Tic Tac Toe</h1>
               </div>
-              <div className='mx-auto w-96 text-2xl text-serif ps-14 text-white'>
-                  <p className='mb-5'>It is player {curPlayer} turn !</p> 
+              <div className='px-24 col-span-3  row-span-3 mx- flex justify-start items-center'>
+                    <div className= "p-4 grid grid-cols-3 gap-3  bg-gradient-to-br  from-orange-500 to-gray-500 "> 
+                      {gameState.map((player,index)=>(
+                        <  Square  {...{player,index}} onClick={handleClick}/> 
+                      ))}
+                    </div>
+              </div>
+              <div className='col-span-3  row-span-  flex-none  p-8 text-slate-800 bg-gradient-to-br  from-teal-500 to-gray-500'>
+                  <h1 className='mb-5'>It is player {curPlayer} turn !</h1> 
                   <p>Player X score is {score["X"]}  !</p> 
                   <p>Player O score is {score["O"]}  !</p> 
               </div>
-            </div>
+          </div>
         </div>
-        </>
 }
 
 export default Game 

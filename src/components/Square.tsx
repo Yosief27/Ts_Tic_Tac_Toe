@@ -11,7 +11,9 @@ const Square = ({player,index,onClick}:SqurareProps) => {
     const hoverStyle="transition duration-300 hover:scale-105 transform";
   return (
                     <div  
-                        className={`h-36 border-solid border-4 border-slate-200 font-display text-7xl text-center flex justify-center items-center ${hoverStyle}`}
+                        className={` flex-1 h-36 w-32 border-solid border-4 border-slate-200 font-display text-7xl text-center flex justify-center items-center ${hoverStyle}
+                        bg-gradient-to-br  from-blue-400 to-gray-500
+                        `}
                         data-cell-index={index}
                         {...{onClick}} 
                         >
